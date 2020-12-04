@@ -94,6 +94,7 @@ nnoremap <C-l> <C-w>l
 nnoremap <C-h> <C-w>h
 nnoremap <C-w> <C-w>w
 
+
 " ALE
 nmap <Space>p <Plug>(ale_previous)
 nmap <Space>n <Plug>(ale_next)
@@ -110,9 +111,18 @@ let g:deoplete#source#jedi#statement_length=100
 inoremap <expr><CR> pumvisible() ? deoplete#close_popup() : "<CR>"
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
-" inoremap <expr><tab> pumvisible() ? "\<C-n>" :
-"         \ neosnippet#expandable_or_jumpable() ?
-"         \    "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
+
+" neosnippet
+let g:neosnippet#snippets_directory = '$HOME/.vim/snippets/'
+inoremap <expr><tab> pumvisible() ? "\<C-n>" : neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
+
+" ctrl + s target jump
+imap <C-f> <Plug>(neosnippet_expand_or_jump)
+smap <C-f> <Plug>(neosnippet_expand_or_jump)
+xmap <C-f> <Plug>(neosnippet_expand_target)
+if has('conceal')
+    set conceallevel=2 concealcursor=niv
+endif
 
 " ipythonコマンドのコマンドライン引数
 let g:ipython_startup_options = ['--no-confirm-exit']
@@ -120,9 +130,10 @@ let g:ipython_startup_options = ['--no-confirm-exit']
 let g:ipython_startup_command = [
             \'import pandas as pd',
             \'import numpy as np',
-            \'pd.options.display.max_rows = 10',
-            \'pd.options.display.max_columns = 10',
-            \'pd.options.display.precision = 3']
+            \'import torch',
+            \'pd.options.display.max_rows = 100',
+            \'pd.options.display.max_columns = 100',
+            \'pd.options.display.precision = 2']
 
 let g:ipython_window_width = 0
 
@@ -166,6 +177,34 @@ let g:ale_keep_list_window_open = 0
 let g:ale_linters = {
 \   'python': ['flake8'],
 \}
+
+
+"" vimtex
+
+" let g:tex_flavor = 'latex'
+let g:vimtex_compiler_latexmk = {
+      \ 'background': 1,
+      \ 'build_dir': '',
+      \ 'continuous': 1,
+      \ 'options': [
+      \    '-pdfdvi',
+      \    '-verbose',
+      \    '-file-line-error',
+      \    '-synctex=1',
+      \    '-interaction=nonstopmode',
+      \],
+      \}
+
+" let g:vimtex_quickfix_latexlog = 1
+" let g:latex_fold_enabled = 0
+" let g:latax_view_method = 'general'
+let g:vimtex_view_general_viewer = 'mupdf'
+" let g:vimtex_view_general_options = '-r @line @pdf @tex'
+
+let g:latex_toc_split_pos = "topleft"
+let g:latex_toc_width = 10
+
+let g:tex_conceal = ''
 
 
 "dein Scripts-----------------------------
@@ -224,6 +263,11 @@ if dein#load_state('$HOME/.cache/dein')
 
   " tex
   call dein#add('lervag/vimtex')
+  " call dein#add('vim-latex/vim-latex')
+
+  " IME (fcitx)
+  call dein#add('vim-scripts/fcitx.vim')
+
 
 
   " programming env
