@@ -4,15 +4,12 @@ scikit-learn
 matplotlib
 cython
 tqdm
-email
 pandas
 tqdm
-msgpack-python
-neovim
 python-language-server
 powerline-status
-pyls-isort
-pyls-black
-# cupy
-# chainer
 flake8
+ipython
+# cupy
+chainer
+pynvim
